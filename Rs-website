@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RS - Rise Strong</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+}
+
+/* NAV */
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  position: fixed;
+  width: 100%;
+  background: rgba(0,0,0,0.95);
+  z-index: 1000;
+}
+
+nav a {
+  color: #fff;
+  margin-left: 25px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* HERO */
+.hero {
+  height: 100vh;
+  background: url('https://images.unsplash.com/photo-1520975922071-a4a3b5d3b2d3') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 50px;
+  letter-spacing: 8px;
+}
+
+.btn {
+  border: 1px solid #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  color: white;
+  margin-top: 20px;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: white;
+  color: black;
+}
+
+/* PRODUCTS */
+.section {
+  padding: 100px 40px;
+  text-align: center;
+}
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.product {
+  width: 250px;
+  transition: 0.3s;
+}
+
+.product:hover {
+  transform: scale(1.05);
+}
+
+.product img {
+  width: 100%;
+}
+
+button {
+  margin-top: 10px;
+  border: 1px solid #fff;
+  background: none;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+}
+
+/* CART SLIDE */
+#cart {
+  position: fixed;
+  right: -350px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: #111;
+  padding: 20px;
+  transition: 0.4s;
+}
+
+#cart.active {
+  right: 0;
+}
+
+/* CHECKOUT */
+#checkoutBox {
+  display: none;
+  background: #111;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 40px;
+  color: gray;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero h1 {
+    font-size: 28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>RS</h2>
+  <nav>
+    <a href="#shop">SHOP</a>
+    <a href="#" onclick="toggleCart()">CART</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div>
+    <h1>RISE STRONG</h1>
+    <p>Luxury Streetwear</p>
+    <a href="#shop" class="btn">ENTER STORE</a>
+  </div>
+</div>
+
+<section id="shop" class="section">
+  <h2>COLLECTION</h2>
+
+  <div class="products">
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+      <p>RS Hoodie — $65</p>
+      <button onclick="addToCart('RS Hoodie',65)">Add</button>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c">
+      <p>RS Tee — $35</p>
+      <button onclick="addToCart('RS Tee',35)">Add</button>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f">
+      <p>RS Jacket — $120</p>
+      <button onclick="addToCart('RS Jacket',120)">Add</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- CART -->
+<div id="cart">
+  <h3>Cart</h3>
+  <div id="cartItems"></div>
+  <p id="total"></p>
+  <button onclick="openCheckout()">Checkout</button>
+
+  <div id="checkoutBox">
+    <h4>Checkout</h4>
+    <p>Enter Name</p>
+    <input placeholder="Name"><br><br>
+    <p>Enter Address</p>
+    <input placeholder="Address"><br><br>
+    <button onclick="payNow()">Pay Now</button>
+  </div>
+</div>
+
+<footer>
+  © 2026 RS — Rise Strong
+</footer>
+
+<script>
+let cart = [];
+
+function addToCart(name, price){
+  cart.push({name, price});
+  alert(name + " added");
+}
+
+function toggleCart(){
+  document.getElementById("cart").classList.toggle("active");
+  renderCart();
+}
+
+function renderCart(){
+  let items = document.getElementById("cartItems");
+  let total = 0;
+  items.innerHTML = "";
+
+  cart.forEach(item=>{
+    total += item.price;
+    items.innerHTML += `<p>${item.name} - $${item.price}</p>`;
+  });
+
+  document.getElementById("total").innerText = "Total: $" + total;
+}
+
+function openCheckout(){
+  document.getElementById("checkoutBox").style.display = "block";
+}
+
+function payNow(){
+  alert("Next step: connect Stripe to accept real payments.");
+}
+</script>
+
+</body>
+</html>
